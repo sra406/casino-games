@@ -1,0 +1,19 @@
+<section class="side-card join-card" id="join-card" data-max-profile-image-mb="{{ max_profile_image_mb }}">
+  <p class="eyebrow">PLAYER ACCOUNT</p>
+  <h2 id="auth-title">Sign in</h2>
+  <div class="auth-tabs">
+    <button id="login-tab" class="auth-tab selected" type="button">Sign in</button>
+    <button id="register-tab" class="auth-tab" type="button">Create account</button>
+    <button id="temporary-tab" class="auth-tab" type="button">Temporary</button>
+  </div>
+  <form id="auth-form">
+    <label for="username">Username</label>
+    <input class="auth-input" id="username" maxlength="20" minlength="3" autocomplete="username" placeholder="3–20 letters, numbers, or underscores" required>
+    <div id="password-fields">
+      <label for="password">Password</label>
+      <input class="auth-input" id="password" type="password" minlength="10" maxlength="128" autocomplete="current-password" placeholder="At least 10 characters" required>
+    </div>
+    <button id="auth-submit" class="button button-primary auth-submit" type="submit">Sign in</button>
+  </form>
+  <p id="auth-note" class="small-note">Permanent account data is saved in the host's MySQL database.</p>
+</section>

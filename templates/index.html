@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Choose a Game{% endblock %}
+{% block shell_class %} menu-page{% endblock %}
+{% block eyebrow %}ROYAL TABLE{% endblock %}
+{% block heading %}Choose your <span>game</span>{% endblock %}
+{% block footer %}One account · Shared play credits · No real money{% endblock %}
+{% block content %}
+
+    <section class="menu-intro">
+      <p class="eyebrow">YOUR TABLE IS READY</p>
+      <h2>Pick a game</h2>
+      <p>Join a live table with your account, credits, and player profile.</p>
+    </section>
+
+    <section class="game-choice-grid" aria-label="Available games">
+      <article class="game-choice-card blackjack-choice">
+        <div class="game-choice-mark" aria-hidden="true">21</div>
+        <p class="eyebrow">CARD TABLE</p>
+        <h2>Blackjack</h2>
+        <p>Play the shared live table against the dealer.</p>
+        <a class="button button-primary game-launch" href="/blackjack">Enter Blackjack</a>
+      </article>
+      <article class="game-choice-card roulette-choice">
+        <div class="game-choice-mark" aria-hidden="true">00</div>
+        <p class="eyebrow">NUMBER TABLE</p>
+        <h2>Roulette</h2>
+        <p>Play American roulette with shared account credits and player profiles.</p>
+        <a class="button button-secondary game-launch" href="/roulette">Open Roulette</a>
+      </article>
+      <article class="game-choice-card craps-choice">
+        <div class="game-choice-mark" aria-hidden="true">7</div>
+        <p class="eyebrow">DICE TABLE</p>
+        <h2>Craps</h2>
+        <p>Casino craps with pass, come, odds, place, field and proposition bets on a clickable layout.</p>
+        <a class="button button-secondary game-launch" href="/craps">Open Craps</a>
+      </article>
+      <article class="game-choice-card poker-choice">
+        <div class="game-choice-mark" aria-hidden="true">A♠</div>
+        <p class="eyebrow">PLAYER VS PLAYER</p>
+        <h2>Texas Hold'em</h2>
+        <p>No-limit hold'em against the other players at the table, played with your account credits.</p>
+        <a class="button button-secondary game-launch" href="/poker">Open Poker</a>
+      </article>
+    </section>
+{% endblock %}

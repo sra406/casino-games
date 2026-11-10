@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Craps{% endblock %}
+{% block scripts %}
+  {% include 'partials/live-scripts.html' %}
+  <script src="{{ asset('accounts.js') }}" defer></script>
+  <script src="{{ asset('chip-table.js') }}" defer></script>
+  <script src="{{ asset('games/craps.js') }}" defer></script>
+{% endblock %}
+{% block body_attrs %} data-game="craps" data-refresh-event="craps_refresh_state"{% endblock %}
+{% block eyebrow %}LIVE MULTIPLAYER{% endblock %}
+{% block heading %}Craps <span>Table</span>{% endblock %}
+{% block topbar_status %}
+        {% include 'partials/live-status.html' %}
+        <button id="refresh-button" class="refresh-button" type="button" title="Refresh live table" aria-label="Refresh live table" disabled>
+          <img id="refresh-icon" src="/refresh-button-image" alt="" hidden><span id="refresh-fallback" aria-hidden="true">↻</span>
+        </button>
+{% endblock %}
+{% block footer %}One account · Shared credits and profile pictures · No real money{% endblock %}
+{% block content %}
+
+    <section class="table-panel craps-panel">
+      <div class="table-heading">
+        <div><p class="eyebrow">ROLL <span id="round-number">—</span></p><h2>Casino Craps</h2></div>
+        <div class="craps-status">
+          <div class="craps-puck off" id="point-puck"><strong id="point-puck-label">OFF</strong></div>
+          <div class="craps-status-text"><span id="point-label">Come-out roll</span><small id="shooter-label">Shooter: —</small></div>
+        </div>
+      </div>
+      <div class="roulette-history craps-history" id="craps-history" aria-label="Recent rolls"></div>
+
+      <div class="roulette-stage craps-stage">
+        <div class="craps-tray" aria-live="polite">
+          <div class="craps-dice">
+            <div class="die" id="die-1" data-value="5" aria-label="Die 1"></div>
+            <div class="die" id="die-2" data-value="2" aria-label="Die 2"></div>
+          </div>
+          <p class="craps-roll-callout" id="roll-callout">Waiting for the first roll</p>
+          <button id="roll-button" class="button button-primary craps-roll-button" type="button" hidden>Roll dice</button>
+          <p class="craps-shooter-wait" id="shooter-wait" hidden></p>
+        </div>
+
+        <div class="roulette-controls">
+          {% include 'partials/chip-controls.html' %}
+          <p class="small-note">Once every seated player is ready, the shooter rolls the dice. Bets that stay up (line, come, place, odds) carry to the next roll; new chips cancel your ready.</p>
+        </div>
+      </div>
+
+      <div class="roulette-board-scroll">
+        <svg id="craps-board" class="craps-board chip-board" viewBox="0 0 1000 430" role="group" aria-label="Craps betting layout"></svg>
+      </div>
+      <p class="roulette-board-hint">Click an area to place your chip. Right-click (or the × on your seat) removes new chips or takes down a bet that may come down. On a number box, the strip on top adds odds to your come or don't come bet there.</p>
+
+      <div class="table-divider"></div>
+      <div class="players-heading"><h2>Players <span id="player-count">0</span><small> / {{ max_players }}</small></h2></div>
+      <div id="players" class="players-grid"></div>
+      <p id="table-message" class="table-message">Sign in or join temporarily to take a seat.</p>
+    </section>
+
+    <aside class="sidebar">
+      {% include 'partials/account-panel.html' %}
+      <section class="side-card admin-card" id="admin-card" hidden>
+        <p class="eyebrow">ADMIN TOOLS</p><h2>Table command</h2>
+        <form id="admin-command-form"><label for="admin-command-input">Command</label><div class="input-row"><input id="admin-command-input" autocomplete="off" placeholder="/forceroll 3 4" required><button class="button button-secondary" type="submit">Run</button></div></form>
+        <p class="admin-forced-result" id="admin-forced-roll">Next roll: random</p>
+        <p class="small-note">Commands: <code>/forceroll die1 die2|clear</code> sets the next roll's dice (only admins see it). <code>/forcestart</code> rolls without waiting for ready players. <code>/setcredits username amount</code>.</p>
+        {% include 'partials/admin-terminal-button.html' %}
+      </section>
+      <section class="side-card rules-card">
+        <p class="eyebrow">CASINO RULES</p><h2>Bets & payouts</h2>
+        <ul>
+          <li>Come-out: pass wins on 7 or 11, loses on 2, 3, 12; any other total sets the point.</li>
+          <li>Point: pass wins if the point repeats before a 7. Don't pass is the reverse; 12 on the come-out pushes.</li>
+          <li>Come / don't come work the same way once a point is on.</li>
+          <li>Odds pay true odds: 2:1 on 4/10, 3:2 on 5/9, 6:5 on 6/8 (3-4-5x; lay up to 6x).</li>
+          <li>Place: 9:5 on 4/10, 7:5 on 5/9, 7:6 on 6/8. Big 6/8 pay 1:1. Payouts round down, so bet place 6/8 in multiples of 6 and 4/5/9/10 in multiples of 5 for full pay.</li>
+          <li>Field: 3, 4, 9, 10, 11 pay 1:1; 2 pays 2:1; 12 pays 3:1.</li>
+          <li>Hard 4/10 pay 7:1, hard 6/8 pay 9:1. Any 7 4:1, any craps 7:1, 3 or 11 15:1, 2 or 12 30:1.</li>
+          <li>Place bets, hardways and come odds are off on the come-out roll.</li>
+          <li>Pass and come bets with a point can't be taken down; leaving the table loses them.</li>
+        </ul>
+      </section>
+      <p id="notice" class="notice" role="status" hidden></p>
+    </aside>
+{% endblock %}

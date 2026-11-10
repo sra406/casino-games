@@ -1,0 +1,18 @@
+<p class="eyebrow">CHIP VALUE</p>
+<div class="roulette-chip-rack" id="chip-rack" role="radiogroup" aria-label="Chip value"></div>
+<div class="input-row roulette-chip-row">
+  <label class="visually-hidden" for="chip-input">Custom chip value</label>
+  <input id="chip-input" type="number" min="{{ min_bet }}" max="{{ max_bet }}" step="1" value="10" aria-label="Custom chip value">
+  <button id="set-chip-button" class="button button-secondary" type="button">Set</button>
+</div>
+<div class="roulette-totals">
+  <div><span>Credits</span><strong id="own-credits">—</strong></div>
+  <div><span>On the table</span><strong id="own-total-bet">0</strong></div>
+</div>
+<div class="roulette-bet-actions">
+  <button id="undo-bet-button" class="button button-secondary" type="button" disabled>Undo</button>
+  <button id="clear-bets-button" class="button button-secondary" type="button" disabled>Clear</button>
+  <button id="rebet-button" class="button button-secondary" type="button" disabled>Rebet</button>
+</div>
+<div class="roulette-actions"><button id="ready-button" class="button button-primary" type="button" disabled>Ready</button></div>
+<p class="roulette-ready-count" id="ready-count" aria-live="polite"></p>

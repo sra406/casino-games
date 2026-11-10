@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Admin Terminal{% endblock %}
+{% block scripts %}
+  {% include 'partials/live-scripts.html' %}
+  <script src="{{ asset('admin.js') }}" defer></script>
+{% endblock %}
+{% block body_attrs %} data-page="admin"{% endblock %}
+{% block shell_class %} admin-page{% if embedded %} admin-embedded{% endif %}{% endblock %}
+{% block eyebrow %}ROYAL TABLE ADMIN{% endblock %}
+{% block heading %}Admin <span>Terminal</span>{% endblock %}
+{% block topbar_status %}
+        {% include 'partials/live-status.html' %}
+{% endblock %}
+{% block footer %}Admin tools · Commands are checked against the account's admin permission{% endblock %}
+{% block content %}
+
+    <section class="side-card admin-login-card" id="admin-login" hidden>
+      <p class="eyebrow">ADMIN ACCESS</p>
+      <h2>Sign in</h2>
+      <form id="admin-login-form">
+        <label for="admin-username">Username</label>
+        <input class="auth-input" id="admin-username" maxlength="20" minlength="3" autocomplete="username" required>
+        <label for="admin-password">Password</label>
+        <input class="auth-input" id="admin-password" type="password" minlength="10" maxlength="128" autocomplete="current-password" required>
+        <button class="button button-primary auth-submit" type="submit">Open terminal</button>
+      </form>
+      <p class="small-note" id="admin-login-note">Only accounts with admin access can use this terminal.</p>
+    </section>
+
+    <div class="admin-console" id="admin-console" hidden>
+      <section class="table-panel admin-players-panel">
+        <div class="table-heading">
+          <div><p class="eyebrow">LIVE</p><h2>Connected players <span class="admin-player-count" id="admin-player-count">0</span></h2></div>
+          <button class="button button-secondary" id="admin-refresh" type="button">Refresh</button>
+        </div>
+        <div class="admin-player-table-wrap">
+          <table class="admin-player-table">
+            <thead><tr><th scope="col">Player</th><th scope="col">Game</th><th scope="col">Credits</th><th scope="col">Connected</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody id="admin-player-rows"></tbody>
+          </table>
+          <p class="admin-empty" id="admin-empty" hidden>No players are connected right now.</p>
+        </div>
+      </section>
+
+      <section class="admin-terminal" aria-label="Admin terminal">
+        <div class="admin-terminal-bar"><span></span><span></span><span></span><strong id="admin-terminal-title">admin@royal-table</strong></div>
+        <div class="admin-terminal-log" id="admin-terminal-log" role="log" aria-live="polite"></div>
+        <form class="admin-terminal-prompt" id="admin-terminal-form">
+          <label for="admin-terminal-input" class="admin-terminal-caret">›</label>
+          <input id="admin-terminal-input" autocomplete="off" spellcheck="false" placeholder="/help" aria-label="Admin command">
+        </form>
+      </section>
+    </div>
+{% endblock %}

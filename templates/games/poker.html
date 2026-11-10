@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Texas Hold'em{% endblock %}
+{% block scripts %}
+  {% include 'partials/live-scripts.html' %}
+  <script src="{{ asset('accounts.js') }}" defer></script>
+  <script src="{{ asset('games/poker.js') }}" defer></script>
+{% endblock %}
+{% block body_attrs %} data-game="poker" data-refresh-event="poker_refresh_state"{% endblock %}
+{% block eyebrow %}LIVE MULTIPLAYER{% endblock %}
+{% block heading %}Texas Hold'em <span>Table</span>{% endblock %}
+{% block topbar_status %}
+        {% include 'partials/live-status.html' %}
+        <button id="refresh-button" class="refresh-button" type="button" title="Refresh live table" aria-label="Refresh live table" disabled>
+          <img id="refresh-icon" src="/refresh-button-image" alt="" hidden><span id="refresh-fallback" aria-hidden="true">↻</span>
+        </button>
+{% endblock %}
+{% block footer %}One table · Up to {{ max_players }} players · No real money{% endblock %}
+{% block content %}
+
+    <section class="table-panel poker-panel">
+      <div class="table-heading">
+        <div><p class="eyebrow">HAND <span id="round-number">—</span></p><h2>No-limit Hold'em</h2></div>
+        <div class="dealer-heading-status">
+          <div class="dealer-total"><span>Blinds</span><strong id="blinds">—</strong></div>
+          <strong id="decision-timer" hidden></strong>
+        </div>
+      </div>
+
+      <div class="poker-felt">
+        <p class="poker-street" id="street">Waiting for players</p>
+        <div class="cards poker-board" id="board" aria-label="Community cards"></div>
+        <div class="poker-pot"><span>Pot</span><strong id="pot">0</strong></div>
+        <ul class="poker-pots" id="pots" hidden></ul>
+      </div>
+
+      <div class="table-divider"></div>
+      <div class="players-heading">
+        <h2>Players <span id="player-count">0</span><small> / {{ max_players }}</small></h2>
+        <div class="round-actions"><label for="decision-seconds">Decision time <input id="decision-seconds" type="number" min="{{ min_decision_seconds }}" max="{{ max_decision_seconds }}" step="1" value="30"> sec</label><button id="ready-button" class="button button-primary" disabled>Ready</button></div>
+      </div>
+      <p class="roulette-ready-count" id="ready-count" aria-live="polite"></p>
+      <div id="players" class="players-grid"></div>
+
+      <section id="turn-controls" class="decision-panel" hidden aria-label="Your turn controls">
+        <p class="eyebrow">YOUR DECISION · <span id="to-call-label"></span></p>
+        <div class="poker-actions">
+          <button id="fold-button" class="button button-secondary" type="button">Fold</button>
+          <button id="check-call-button" class="button button-primary" type="button">Check</button>
+          <button id="allin-button" class="button button-secondary" type="button">All-in</button>
+        </div>
+        <div class="poker-raise" id="raise-controls">
+          <div class="poker-raise-presets">
+            <button class="button button-secondary" type="button" data-raise="min">Min</button>
+            <button class="button button-secondary" type="button" data-raise="half">½ pot</button>
+            <button class="button button-secondary" type="button" data-raise="pot">Pot</button>
+          </div>
+          <input id="raise-slider" type="range" step="1" aria-label="Raise amount">
+          <div class="input-row">
+            <label class="visually-hidden" for="raise-amount">Raise to</label>
+            <input id="raise-amount" class="auth-input" type="number" step="1">
+            <button id="raise-button" class="button button-primary" type="button">Raise</button>
+          </div>
+        </div>
+      </section>
+      <p id="table-message" class="table-message">Sign in or join temporarily to take a seat.</p>
+    </section>
+
+    <aside class="sidebar">
+      {% include 'partials/account-panel.html' %}
+
+      <section class="side-card admin-card" id="admin-card" hidden>
+        <p class="eyebrow">ADMIN TOOLS</p>
+        <h2>Game controls</h2>
+        {% include 'partials/admin-table-controls.html' %}
+        <form id="admin-command-form">
+          <label for="admin-command-input">Command</label>
+          <div class="input-row"><input id="admin-command-input" autocomplete="off" placeholder="/blinds 20" required><button class="button button-secondary" type="submit">Run</button></div>
+        </form>
+        <p class="small-note">Commands: <code>/forcestart [seconds]</code> deals without waiting for ready players, <code>/skip</code> checks or folds for the deciding player, <code>/timer seconds|pause|resume</code>, <code>/manualdraw on|off</code> pauses before every card so you can see and stack it, <code>/draw</code> deals it, <code>/blinds amount</code> sets the big blind, <code>/stackcard A</code> puts a card on top of the deck, <code>/setcredits username amount</code>.</p>
+        {% include 'partials/admin-terminal-button.html' %}
+      </section>
+
+      <section class="side-card rules-card">
+        <p class="eyebrow">QUICK RULES</p>
+        <h2>How to play</h2>
+        <ul>
+          <li>Two private cards each, five shared cards on the board.</li>
+          <li>Make the best five-card hand from any of your seven.</li>
+          <li>Betting rounds: pre-flop, flop, turn, and river.</li>
+          <li>No limit: raise at least the last raise, up to all your credits.</li>
+          <li>All-in players can only win the pots they covered.</li>
+          <li>Out of time: you check if you can, otherwise you fold.</li>
+          <li>Leaving during a hand folds it.</li>
+        </ul>
+      </section>
+      <p id="notice" class="notice" role="status" hidden></p>
+    </aside>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %} · Royal Table</title>
+  <link rel="stylesheet" href="{{ asset('style.css') }}">
+  {%- block scripts %}{% endblock %}
+</head>
+<body{% block body_attrs %}{% endblock %}>
+  <main class="page-shell{% block shell_class %}{% endblock %}">
+    <header class="topbar">
+      <div><p class="eyebrow">{% block eyebrow %}{% endblock %}</p><h1>{% block heading %}{% endblock %}</h1></div>
+      <div class="topbar-actions">
+        {% include 'partials/game-navigation.html' %}
+        {%- block topbar_status %}{% endblock %}
+      </div>
+    </header>
+{% block content %}{% endblock %}
+    <footer>{% block footer %}{% endblock %}</footer>
+  </main>
+</body>
+</html>
